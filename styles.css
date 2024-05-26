@@ -1,0 +1,51 @@
+#header{
+    display: flex;
+    justify-content: center;
+}
+#body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container {
+    display: flex;
+    align-content: center;
+    width: 400px;
+    height: 300px;
+    
+    background-color: rgb(255, 205, 189);
+    border: 2px black solid;
+    flex-direction: column;
+    
+}
+#numberDisplay{
+    display: flex;
+    margin: 5px;
+    background-color: rgb(253, 253, 253);
+    border: black 2px solid;
+    max-height: 50px;
+    flex: auto;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 5px;
+    background-color: rgb(253, 253, 253);
+    border: black 2px solid;
+    flex: auto;
+    flex-wrap: wrap;
+    max-width: 390px;
+    max-height: 235;
+}
+.button{
+    display: flex;
+    margin: 3px;
+    background-color: rgb(255, 234, 227);
+    border: black 2px solid; 
+    width: 20%;
+    height: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
