@@ -1,3 +1,6 @@
+*{
+    font-family: monospace;
+}
 #header{
     display: flex;
     justify-content: center;
@@ -25,6 +28,11 @@
     border: black 2px solid;
     max-height: 50px;
     flex: auto;
+    justify-content: space-evenly;
+    font-size: 40px;
+    width: 390px;
+    height: 53px;
+
 }
 .buttonContainer{
     display: flex;
