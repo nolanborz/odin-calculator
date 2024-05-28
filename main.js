@@ -18,10 +18,14 @@ const fourButton = document.getElementById('four');
 const threeButton = document.getElementById('three');
 const twoButton = document.getElementById('two');
 const oneButton = document.getElementById('one');
+const zeroButton = document.getElementById('zero');
+
+//make a variable for the current string/equation
+let currentEquation = '';
 
 //addition, subratction, multiplication, and division functions
 function add(value1, value2) {
-
+    
     return value1 + value2;
 }
 function subtract(value1, value2) {
@@ -41,6 +45,8 @@ function divide(value1, value2) {
 function operate(value1, value2, operator) {
 
     if (operator === '+') {
+         
+        
         return add(value1, value2);
     };
     if (operator === '-') {
@@ -54,17 +60,51 @@ function operate(value1, value2, operator) {
     };
 }
 
+
+function stringBuilder(){
+    if (currentEquation[currentEquation.length - 1] !== '=') {
+        currentEquation += numberDisplay.textContent;
+        clearDisplay();
+    }
+    else {
+        console.log('hi');
+    }
+};
+//this clears display and sends clean strings to the evaluator
+function stringCleaner(){
+    currentEquation += numberDisplay.textContent;
+    clearDisplay();
+    let arr = currentEquation.split('').splice(currentEquation.length - 1, 1);
+
+    
+    return console.log(arr);
+}
+
 //clear function
 function clearDisplay() {
+    
     numberDisplay.textContent = '';
 }
 
 
 function buttonResponse() {
     allButtons.forEach(mouseResponseColorChange);
-    oneButton.addEventListener('click', () => {
-        
-        numberDisplay.textContent += '1'});
+    oneButton.addEventListener('click', () => { numberDisplay.textContent += '1'});
+    twoButton.addEventListener('click', () => { numberDisplay.textContent += '2'});
+    threeButton.addEventListener('click', () => { numberDisplay.textContent += '3'});
+    fourButton.addEventListener('click', () => { numberDisplay.textContent += '4'});
+    fiveButton.addEventListener('click', () => { numberDisplay.textContent += '5'});
+    sixButton.addEventListener('click', () => { numberDisplay.textContent += '6'});
+    sevenButton.addEventListener('click', () => { numberDisplay.textContent += '7'});
+    eightButton.addEventListener('click', () => { numberDisplay.textContent += '8'});
+    nineButton.addEventListener('click', () => { numberDisplay.textContent += '9'});
+    zeroButton.addEventListener('click', () => { numberDisplay.textContent += '0'});
+
+    addButton.addEventListener('click', () => {numberDisplay.textContent += '+'; stringBuilder()});
+    subButton.addEventListener('click', () => {numberDisplay.textContent += '-'; stringBuilder()});
+    divButton.addEventListener('click', () => {numberDisplay.textContent += '/'; stringBuilder()});
+    multButton.addEventListener('click', () => {numberDisplay.textContent += '*'; stringBuilder()});
+    equalButton.addEventListener('click', () => {numberDisplay.textContent += '='; stringCleaner()});
 }
 
 function mouseResponseColorChange(item, index, array) {
