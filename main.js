@@ -70,14 +70,28 @@ function stringBuilder(){
         console.log('hi');
     }
 };
+let arr = [];
 //this clears display and sends clean strings to the evaluator
 function stringCleaner(){
     currentEquation += numberDisplay.textContent;
     clearDisplay();
-    let arr = currentEquation.split('').splice(currentEquation.length - 1, 1);
+    let newArr = currentEquation.split('');
+    newArr.pop();
+    function indexFinder() {
+        return '9' === true;
+        }
 
     
-    return console.log(arr);
+
+    if (newArr.includes('+')) {
+        let sign = '+';
+        let opIndex = newArr.findIndex(indexFinder);
+        console.log(opIndex);
+    }
+
+
+    
+    return console.log(newArr);
 }
 
 //clear function
