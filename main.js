@@ -25,8 +25,8 @@ let currentEquation = '';
 
 //addition, subratction, multiplication, and division functions
 function add(value1, value2) {
-    
-    return value1 + value2;
+    console.log(parseInt(value1) + parseInt(value2));
+    return parseInt(value1) + parseInt(value2);
 }
 function subtract(value1, value2) {
     
@@ -45,8 +45,7 @@ function divide(value1, value2) {
 function operate(value1, value2, operator) {
 
     if (operator === '+') {
-         
-        
+        console.log('got it');
         return add(value1, value2);
     };
     if (operator === '-') {
@@ -71,9 +70,20 @@ function stringCleaner(){
     currentEquation += numberDisplay.textContent;
     clearDisplay();
     let newArr = currentEquation.split('');
+    currentEquation = '';
     newArr.pop();
     console.log(newArr);
-    console.log(newArr.findIndex(adder => adder == '+'));
+    let operatorIndex = newArr.findIndex(adder => adder == '+');
+    let arr1 = newArr.slice(0, operatorIndex);
+    let arr2 = newArr.slice(operatorIndex + 1, newArr.length);
+    return operatorPrep(arr1, arr2, newArr[operatorIndex]);
+}
+
+function operatorPrep(val1, val2, operator) {
+    const num1 = val1.join('');
+    const num2 = val2.join('');
+    console.log(operator);
+    return operate(num1, num2, operator);
 }
 
 //clear function
