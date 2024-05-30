@@ -60,16 +60,11 @@ function operate(value1, value2, operator) {
     };
 }
 
-
 function stringBuilder(){
-    if (currentEquation[currentEquation.length - 1] !== '=') {
         currentEquation += numberDisplay.textContent;
         clearDisplay();
-    }
-    else {
-        console.log('hi');
-    }
 };
+
 let arr = [];
 //this clears display and sends clean strings to the evaluator
 function stringCleaner(){
@@ -77,26 +72,12 @@ function stringCleaner(){
     clearDisplay();
     let newArr = currentEquation.split('');
     newArr.pop();
-    function indexFinder() {
-        return '9' === true;
-        }
-
-    
-
-    if (newArr.includes('+')) {
-        let sign = '+';
-        let opIndex = newArr.findIndex(indexFinder);
-        console.log(opIndex);
-    }
-
-
-    
-    return console.log(newArr);
+    console.log(newArr);
+    console.log(newArr.findIndex(adder => adder == '+'));
 }
 
 //clear function
 function clearDisplay() {
-    
     numberDisplay.textContent = '';
 }
 
