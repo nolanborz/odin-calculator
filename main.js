@@ -20,32 +20,34 @@ const twoButton = document.getElementById('two');
 const oneButton = document.getElementById('one');
 const zeroButton = document.getElementById('zero');
 
-//make a variable for the current string/equation
+//make some variables for the current string/equation
 let currentEquation = '';
+let arr = [];
 
 //addition, subratction, multiplication, and division functions
 function add(value1, value2) {
-
     let sum = parseInt(value1) + parseInt(value2);
     numberDisplay.textContent = sum;
     currentEquation = sum;
-}
+};
 function subtract(value1, value2) {
-    
-    return numberDisplay.textContent = value1 - value2;
-}
+    let difference = parseInt(value1) - parseInt(value2);
+    numberDisplay.textContent = difference;
+    currentEquation = difference;
+};
 function multiply(value1, value2) {
-    
-    return value1 + value2;
-}
+    let product = parseInt(value1) * parseInt(value2);
+    numberDisplay.textContent = product;
+    currentEquation = product;
+};
 function divide(value1, value2) {
-    
-    return value1 / value2;
-}
+    let quotient = Math.round((parseInt(value1) / parseInt(value2) * 100)) / 100;
+    numberDisplay.textContent = quotient;
+    currentEquation = quotient;
+};
 
 //checks the operator and calls the appropriate function
 function operate(value1, value2, operator) {
-    console.log(value2);
     if (operator === '+') {
         return add(value1, value2);
     };
@@ -62,7 +64,7 @@ function operate(value1, value2, operator) {
 
 function numberDisplayUpdater(num) {
     let operatorCheck = currentEquation[currentEquation.length - 1];
-    if (operatorCheck != '+') {
+    if (operatorCheck != '+' && operatorCheck != '-') {
         numberDisplay.textContent += (num);
         currentEquation += num;
         
@@ -76,7 +78,7 @@ function numberDisplayUpdater(num) {
 
 function operatorHandler(oper) {
     let operatorCheck = currentEquation[currentEquation.length - 1];
-    if (operatorCheck == '+') {
+    if (operatorCheck == '+' || operatorCheck == '-') {
         stringCleaner();
     }
     else {
@@ -84,65 +86,68 @@ function operatorHandler(oper) {
     }
 };
 
-function stringBuilder(operator){
-        currentEquation += operator;
-        console.log("Current eqution is " + currentEquation);
-};
-
-let arr = [];
-//this clears display and sends clean strings to the evaluator
 function stringCleaner(){
-    //currentEquation += numberDisplay.textContent;
-    
     let newArr = currentEquation.split('');
     currentEquation = '';
-    console.log(newArr);
-    //newArr.pop();
-    let operatorIndex = newArr.findIndex(adder => adder == '+');
-    let arr1 = newArr.slice(0, operatorIndex);
-    let arr2 = newArr.slice(operatorIndex + 1, newArr.length);
-    return operatorPrep(arr1, arr2, newArr[operatorIndex]);
-}
+    if (newArr.includes('+')) {
+        return executePrep('+', newArr);
+    }
+    else if (newArr.includes('-')) {
+        return executePrep('-', newArr);
+    }
+    else if (newArr.includes('*')) {
+        return executePrep('*', newArr);
+    }
+    else if (newArr.includes('/')) {
+        return executePrep('/', newArr);
+    }
+};
+
+function executePrep(oper, arr) {  
+    let operatorIndex = arr.findIndex(adder => adder == oper);
+    let arr1 = arr.slice(0, operatorIndex);
+    let arr2 = arr.slice(operatorIndex + 1, arr.length);
+    return operatorPrep(arr1, arr2, arr[operatorIndex]);
+};
 
 function operatorPrep(val1, val2, operator) {
     const num1 = val1.join('');
     const num2 = val2.join('');
     return operate(num1, num2, operator);
-}
+};
 
 //clear function
 function clearDisplay() {
     numberDisplay.textContent = '';
-}
+};
 function clearEquation() {
     currentEquation = '';
-}
-
+};
 
 function buttonResponse() {
     allButtons.forEach(mouseResponseColorChange);
-    oneButton.addEventListener('click', () => { numberDisplay.textContent += '1'});
+    oneButton.addEventListener('click', () => { numberDisplayUpdater('1')});
     twoButton.addEventListener('click', () => { numberDisplayUpdater('2') });
-    threeButton.addEventListener('click', () => { numberDisplay.textContent += '3'});
-    fourButton.addEventListener('click', () => { numberDisplay.textContent += '4'});
-    fiveButton.addEventListener('click', () => { numberDisplay.textContent += '5'});
-    sixButton.addEventListener('click', () => { numberDisplay.textContent += '6'});
-    sevenButton.addEventListener('click', () => { numberDisplay.textContent += '7'});
-    eightButton.addEventListener('click', () => { numberDisplay.textContent += '8'});
-    nineButton.addEventListener('click', () => { numberDisplay.textContent += '9'});
-    zeroButton.addEventListener('click', () => { numberDisplay.textContent += '0'});
+    threeButton.addEventListener('click', () => { numberDisplayUpdater('3') });
+    fourButton.addEventListener('click', () => { numberDisplayUpdater('4') });
+    fiveButton.addEventListener('click', () => { numberDisplayUpdater('5') });
+    sixButton.addEventListener('click', () => { numberDisplayUpdater('6')});
+    sevenButton.addEventListener('click', () => { numberDisplayUpdater('7')});
+    eightButton.addEventListener('click', () => { numberDisplayUpdater('8')});
+    nineButton.addEventListener('click', () => { numberDisplayUpdater('9')});
+    zeroButton.addEventListener('click', () => { numberDisplayUpdater('0')});
 
     addButton.addEventListener('click', () => {operatorHandler('+')});
-    subButton.addEventListener('click', () => {numberDisplay.textContent += '-'; stringBuilder()});
-    divButton.addEventListener('click', () => {numberDisplay.textContent += '/'; stringBuilder()});
-    multButton.addEventListener('click', () => {numberDisplay.textContent += '*'; stringBuilder()});
+    subButton.addEventListener('click', () => {operatorHandler('-')});
+    divButton.addEventListener('click', () => {operatorHandler('/')});
+    multButton.addEventListener('click', () => {operatorHandler('*')});
     equalButton.addEventListener('click', () => {stringCleaner()});
-}
+};
 
 function mouseResponseColorChange(item, index, array) {
     item.addEventListener('mousedown', () => item.style.background = 'beige');
     item.addEventListener('mouseup', () => item.style.background = 'rgb(255, 234, 227)');
-}
+};
 
 
 buttonResponse();
