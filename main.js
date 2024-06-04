@@ -1,186 +1,112 @@
-//initiate selectors
-const numberDisplay = document.getElementById('numberDisplay');
-const allButtons = document.querySelectorAll("button");
-
-const addButton = document.getElementById("add");
-const subButton = document.getElementById('minus');
-const multButton = document.getElementById('multiply');
-const divButton = document.getElementById('divide');
-const equalButton = document.getElementById('equals');
-const clearButton = document.getElementById('clear');
-//number selectors
-const nineButton = document.getElementById('nine');
-const eightButton = document.getElementById('eight');
-const sevenButton = document.getElementById('seven');
-const sixButton = document.getElementById('six');
-const fiveButton = document.getElementById('five');
-const fourButton = document.getElementById('four');
-const threeButton = document.getElementById('three');
-const twoButton = document.getElementById('two');
-const oneButton = document.getElementById('one');
-const zeroButton = document.getElementById('zero');
 
 //make some variables for the current string/equation
-let currentEquation = '';
-let arr = [];
-let leftoverOp = '';
+let num1 = '';
+let num2 = '';
+let operand = '';
+let previousResult = '';
+
 
 //addition, subratction, multiplication, and division functions
-function add(value1, value2) {
-    let sum = parseInt(value1) + parseInt(value2);
-    numberDisplay.textContent = sum;
-    currentEquation = sum + leftoverOp;
-    leftoverOp = '';
+let add = function(x, y) {
+    return x + y;
 };
-function subtract(value1, value2) {
-    let difference = parseInt(value1) - parseInt(value2);
-    numberDisplay.textContent = difference;
-    currentEquation = difference + leftoverOp;
-    leftoverOp = '';
-};
-function multiply(value1, value2) {
-    let product = parseInt(value1) * parseInt(value2);
-    numberDisplay.textContent = product;
-    currentEquation = product + leftoverOp;
-    leftoverOp = '';
-};
-function divide(value1, value2) {
-    if (value2 == '0' || value2 == '00' || value2 == '000') {
-        currentEquation = '';
-        return numberDisplay.textContent = 'You moron';
-    }
-    let quotient = Math.round((parseInt(value1) / parseInt(value2) * 100)) / 100;
-    numberDisplay.textContent = quotient;
-    currentEquation = quotient + leftoverOp;
-    leftoverOp = '';
-};
+let subract = function(x, y) {
+    return x - y;
+}
+let multiply = function(x, y) {
+    return x * y;
+}
+let divide = function(x, y) {
+    return x / y;
+}
 
 //checks the operator and calls the appropriate function
-function operate(value1, value2, operator) {
-    if (operator === '+') {
-        return add(value1, value2);
-    };
-    if (operator === '-') {
-        return subtract(value1, value2);
-    };
-    if (operator === '*') {
-        return multiply(value1, value2);
-    };
-    if (operator === '/') {
-        return divide(value1, value2);
-    }
-};
-
-function numberDisplayUpdater(num) {
-    let operatorCheck = currentEquation[currentEquation.length - 1];
-    if (operatorCheck != '+' && operatorCheck != '-' && operatorCheck != '*' && operatorCheck != '/') {
-        numberDisplay.textContent += (num);
-        currentEquation += num;
-        
-    }
-    else {
-        clearDisplay();
-        numberDisplay.textContent += (num);
-        currentEquation += num;
-    }
-};
-
-function operatorHandler(oper) {
-    currentEquation += oper;
-    let equationUntilNow = currentEquation.slice(0, currentEquation.length - 1);
-    if (equationUntilNow.includes('+')) {
-        leftoverOp = '+';
-        stringCleaner();
-    }
-    else if (equationUntilNow.includes('-')) {
-        leftoverOp = '-';
-        stringCleaner();
-    }
-    else if (equationUntilNow.includes('*')) {
-        leftoverOp = '*';
-        stringCleaner();
-    }
-    else if (equationUntilNow.includes('/')) {
-        leftoverOp = '/';
-        stringCleaner();
-    }
-};
-
-function equalsHandler() {
-    let lastLetter = currentEquation[currentEquation.length - 1];
-    if (currentEquation.includes('+') == false && currentEquation.includes('-') == false && currentEquation.includes('*') == false && currentEquation.includes('/') == false) {
-        currentEquation = '';
-        numberDisplay.textContent = '';
-        console.log('error, invalid equation');
-    }
-    else if (lastLetter == '+' || lastLetter == '-' || lastLetter == '*' || lastLetter == '/') {
-        currentEquation = '';
-        numberDisplay.textContent = '';
-        console.log('error, you can not have equals after an operator');
-    }
-    else {    
-
-    stringCleaner();
+let operate = function (value1, value2, operator) {
+    switch(operator) {
+        case '+': 
+            return add(value1, value2);
+            
+        case '-':
+            return subract(value1, value2);
+            
+        case '*':
+            return (value1, value2);
+            
+        case '/':
+            if (value2 == '0') {
+                updateDisplay('You moron');
+                return;
+            }
+            else {
+            return divide(value1, value2);
+            }
     }
 }
 
-function stringCleaner(){
-    let newArr = currentEquation.split('');
-    currentEquation = '';
-    if (newArr.includes('+')) {
-        return executePrep('+', newArr);
-    }
-    else if (newArr.includes('-')) {
-        return executePrep('-', newArr);
-    }
-    else if (newArr.includes('*')) {
-        return executePrep('*', newArr);
-    }
-    else if (newArr.includes('/')) {
-        return executePrep('/', newArr);
-    }
+let updateDisplay = (buttonText) => {
+    display.textContent = buttonText;
 };
+let display = document.querySelector('#numberDisplay');
 
-function executePrep(oper, arr) {  
-    let operatorIndex = arr.findIndex(adder => adder == oper);
-    let arr1 = arr.slice(0, operatorIndex);
-    let arr2 = arr.slice(operatorIndex + 1, arr.length);
-    return operatorPrep(arr1, arr2, arr[operatorIndex]);
-};
+let buttonNodeList = document.querySelectorAll("button");
 
-function operatorPrep(val1, val2, operator) {
-    const num1 = val1.join('');
-    const num2 = val2.join('');
-    return operate(num1, num2, operator);
-};
+buttonNodeList.forEach(buttonNode => {
+    buttonNode.addEventListener('click', () => {
+        let buttonText = buttonNode.firstChild.textContent
+        if (!isNaN(buttonText)) {
+            if (operand === '') {
+                num1 += buttonText;
+                updateDisplay(num1);
+            }
+            else {
+                num2 += buttonText;
+                updateDisplay(`${num1} ${operand} ${num2}`);
+            }
+        }
+        
+        else if (buttonText === 'clear') {
+            console.log('all clear');
+            operand = '';
+            num1 = '';
+            num2 = '';
+            previousResult = '';
+            display.textContent = '';
+            updateDisplay('');
+        }
+        else if (buttonText == '+' || buttonText == '-' || buttonText == '*' || buttonText == '/') {
+            if (num1 == '') {
+                console.log('cannot have operand first');
+                return;
+            }
+            else if (num1 != '' && operand != '' && num2 == '') {
+                console.log('cannot have 2 operators in a row');
+                return;
+            }
+            else if (num1 != '' && operand != '' && num2 != '') {
+                operate(num1, num2, operand);
+                //have some work to do here to continue equation, need to return something and set result as num1
+            }
+            else {
+                operand += buttonText;
+            }
+            
+        }
+        else if(buttonText === '=') {
+            if (num1 !== '' && num2 !== '' && operand !== '') {
+                let result = operate(parseFloat(num1), parseFloat(num2), operand);
+                result = parseFloat(result);
+                updateDisplay(result);
 
-//clear function
-function clearDisplay() {
-    numberDisplay.textContent = '';
-};
-function clearEquation() {
-    currentEquation = '';
-};
+                previousResult = result.toString();
 
-function buttonResponse() {
-    allButtons.forEach(mouseResponseColorChange);
-    oneButton.addEventListener('click', () => { numberDisplayUpdater('1')});
-    twoButton.addEventListener('click', () => { numberDisplayUpdater('2') });
-    threeButton.addEventListener('click', () => { numberDisplayUpdater('3') });
-    fourButton.addEventListener('click', () => { numberDisplayUpdater('4') });
-    fiveButton.addEventListener('click', () => { numberDisplayUpdater('5') });
-    sixButton.addEventListener('click', () => { numberDisplayUpdater('6')});
-    sevenButton.addEventListener('click', () => { numberDisplayUpdater('7')});
-    eightButton.addEventListener('click', () => { numberDisplayUpdater('8')});
-    nineButton.addEventListener('click', () => { numberDisplayUpdater('9')});
-    zeroButton.addEventListener('click', () => { numberDisplayUpdater('0')});
-
-    addButton.addEventListener('click', () => {operatorHandler('+')});
-    subButton.addEventListener('click', () => {operatorHandler('-')});
-    divButton.addEventListener('click', () => {operatorHandler('/')});
-    multButton.addEventListener('click', () => {operatorHandler('*')});
-    equalButton.addEventListener('click', () => {equalsHandler()});
-};
+                num1 = previousResult;
+                num2 = "";
+                operand = "";
+            }
+        }
+        
+    })
+})
 
 function mouseResponseColorChange(item, index, array) {
     item.addEventListener('mousedown', () => item.style.background = 'beige');
@@ -188,5 +114,3 @@ function mouseResponseColorChange(item, index, array) {
 };
 
 
-buttonResponse();
-clearButton.addEventListener('click', () => {clearDisplay(); clearEquation();});
